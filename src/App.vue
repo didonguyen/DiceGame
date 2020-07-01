@@ -9,11 +9,17 @@
               v-bind:activePlayer="activePlayer"
               />
             
-            <controls-comp v-on:clickNewgameEvent="handleclickEvent"/>
+            <controls-comp 
+              v-on:clickNewgameEvent="handleclickEvent"
+              v-on:clickRollDice="clickRollDice"
+            />
             
-            <dices-comp />
+            <dices-comp v-bind:dices="dices"/>
 
-            <popup-rule v-bind:isOpenPopup="isOpenPopup"/>
+            <popup-rule 
+              v-bind:isOpenPopup="isOpenPopup"
+              v-on:handleConfirm="handleConfirm"
+            />
       </div>
   </div>
 </template>
@@ -32,6 +38,7 @@ export default {
       isOpenPopup: false,
       activePlayer: 0,
       playerscore: [10,20],
+      dices: [1, 5],
       currentscore: 20,
 
 
@@ -44,8 +51,43 @@ export default {
     PopupRule
   },
   methods: {
+    nextPlayer(){
+      this.activePlayer = this.activePlayer ==0? 1 : 0;
+      this.currentscore = 0;
+    },
     handleclickEvent(){
       this.isOpenPopup = true;
+    },
+    handleConfirm(){
+      this.isPlaying = true;
+      this.isOpenPopup = false;
+      this.activePlayer = 0;
+      this.playerscore = [0, 0];
+      this.currentscore = 0;
+      this.dices = [1, 1];
+    },
+    clickRollDice(){
+      if(this.isPlaying == false){
+        alert('NewGame Please!');
+        
+      }
+      else{
+        var dice1 = Math.floor(Math.random() * 6) + 1;
+        var dice2 = Math.floor(Math.random() * 6) + 1;
+        this.dices = [dice1,dice2];
+        if(dice1 === 1 || dice2 === 1){
+          setTimeout(() => {
+            alert(`Sorry, You Player ${this.activePlayer + 1} lost yourturn`);
+            this.nextPlayer();
+          }, 10)
+          
+          
+          
+        }
+        else{
+          this.currentscore = this.currentscore + dice1 + dice2;
+        }
+      }
     }
   }
 }

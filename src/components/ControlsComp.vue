@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-controls">
     <button class="control btn-new" v-on:click="handleClickNewgame"><i class="ion-ios-plus-outline"></i>New game</button>
-    <button class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
+    <button class="control btn-roll" v-on:click="handleClickRollDice"><i class="ion-ios-loop"></i>Roll dice</button>
     <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
     
     <input type="number" placeholder="Final score" class="final-score">
@@ -20,6 +20,9 @@ export default {
   methods: {
       handleClickNewgame(){
           this.$emit('clickNewgameEvent');
+      },
+      handleClickRollDice(){
+          this.$emit('clickRollDice')
       }
   }
 };

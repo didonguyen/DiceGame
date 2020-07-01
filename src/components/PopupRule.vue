@@ -3,7 +3,7 @@
       <div class="rule">
           <h3>Game's Rule</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequuntur dolorum sed dolores tempora quaerat voluptatum earum veritatis quibusdam fuga cumque voluptatibus soluta rem accusamus autem, optio ipsam provident iste nulla?</p>
-          <button class="confirm" v-on:click="handleClickGotIt">Got it</button>
+          <button class="confirm" v-on:click="confirm">Got it</button>
       </div>
   </div>
 </template>
@@ -27,8 +27,8 @@ export default {
       }
   },
   methods: {
-      handleClickGotIt(){
-          
+      confirm(){
+          this.$emit('handleConfirm')
       }
   }
 };
