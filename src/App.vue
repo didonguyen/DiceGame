@@ -2,11 +2,18 @@
   <div id="app">
     <div class="wrapper clearfix">
             
-            <players-comp />
+            <players-comp 
+              v-bind:playerscore="playerscore"
+              v-bind:currentscore="currentscore"
+              v-bind:isPlaying="isPlaying"
+              v-bind:activePlayer="activePlayer"
+              />
             
-            <controls-comp />
+            <controls-comp v-on:clickNewgameEvent="handleclickEvent"/>
             
             <dices-comp />
+
+            <popup-rule v-bind:isOpenPopup="isOpenPopup"/>
       </div>
   </div>
 </template>
@@ -16,21 +23,30 @@
 import PlayersComp from './components/PlayersComp';
 import ControlsComp from './components/ControlsComp';
 import DicesComp from './components/DicesComp';
-
+import PopupRule from './components/PopupRule';
 export default {
   name: 'app',
   data () {
     return {
-      
+      isPlaying: false,
+      isOpenPopup: false,
+      activePlayer: 0,
+      playerscore: [10,20],
+      currentscore: 20,
+
+
     }
   },
   components: {
     PlayersComp,
     ControlsComp,
-    DicesComp
+    DicesComp,
+    PopupRule
   },
   methods: {
-
+    handleclickEvent(){
+      this.isOpenPopup = true;
+    }
   }
 }
 </script>

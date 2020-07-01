@@ -1,20 +1,20 @@
 <template>
   <div class="wrapper-players">
-      <div class="player-panel winner">
-            <div class="player-name">Winner</div>
-            <div class="player-score">43</div>
+      <div class="player-panel" v-bind:class="{ active: activePlayer == 0 }">
+            <div class="player-name">Player 1</div>
+            <div class="player-score">{{ playerscore[0] }}</div>
             <div class="player-current-box">
                 <div class="player-current-label">Current</div>
-                <div class="player-current-score">11</div>
+                <div class="player-current-score">{{ activePlayer == 0 ? currentscore : 0 }}</div>
             </div>
         </div>
             
-        <div class="player-panel">
+        <div class="player-panel" v-bind:class="{ active: activePlayer == 1 }">
             <div class="player-name">Player 2</div>
-            <div class="player-score">72</div>
+            <div class="player-score">{{ playerscore[1] }}</div>
             <div class="player-current-box">
                 <div class="player-current-label">Current</div>
-                <div class="player-current-score">0</div>
+                <div class="player-current-score">{{ activePlayer == 1 ? currentscore : 0 }}</div>
             </div>
         </div>
   </div>
@@ -23,6 +23,15 @@
 <script>
 export default {
   name: 'PlayersComp',
+  props: {
+      playerscore: {
+          type: Array,
+          default: [0, 0]
+      },
+      currentscore: { type: Number, default: 0},
+      isPlaying: { type: Boolean, default: 0},
+      activePlayer: { type: Number, default: 0}
+  },
   data() {
       return {
 

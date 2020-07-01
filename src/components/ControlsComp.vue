@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper-controls">
-    <button class="control btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
+    <button class="control btn-new" v-on:click="handleClickNewgame"><i class="ion-ios-plus-outline"></i>New game</button>
     <button class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
     <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
     
@@ -16,14 +16,16 @@ export default {
       return {
 
       }
+  },
+  methods: {
+      handleClickNewgame(){
+          this.$emit('clickNewgameEvent');
+      }
   }
 };
 </script>
 
 <style>
-/**********************************************
-*** Control
-**********************************************/
 .control {
     position: absolute;
     width: 200px;
