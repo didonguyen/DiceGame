@@ -2,9 +2,13 @@
   <div class="wrapper-controls">
     <button class="control btn-new" v-on:click="handleClickNewgame"><i class="ion-ios-plus-outline"></i>New game</button>
     <button class="control btn-roll" v-on:click="handleClickRollDice"><i class="ion-ios-loop"></i>Roll dice</button>
-    <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+    <button class="control btn-hold" v-on:click="$emit('clickHold')"><i class="ion-ios-download-outline"></i>Hold</button>
     
-    <input type="number" placeholder="Final score" class="final-score">
+    <input 
+    v-bind:disabled="isPlaying"
+    v-bind:value="finalScore"
+    v-on:input="$emit('handleFinalScore', $event)"
+    type="number" placeholder="Final score" class="final-score">
                  
   </div>
 </template>
@@ -12,11 +16,16 @@
 <script>
 export default {
   name: 'ControlsComp',
+  props: {
+      finalScore: { type: [Number, String], default: 100 },
+      isPlaying: { type: Boolean, default: true}
+  },
   data() {
       return {
 
       }
   },
+
   methods: {
       handleClickNewgame(){
           this.$emit('clickNewgameEvent');

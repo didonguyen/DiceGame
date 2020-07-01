@@ -3,6 +3,7 @@
     <div class="wrapper clearfix">
             
             <players-comp 
+              v-bind:isWinner="isWinner"
               v-bind:playerscore="playerscore"
               v-bind:currentscore="currentscore"
               v-bind:isPlaying="isPlaying"
@@ -10,8 +11,12 @@
               />
             
             <controls-comp 
+              v-bind:isPlaying="isPlaying"
               v-on:clickNewgameEvent="handleclickEvent"
               v-on:clickRollDice="clickRollDice"
+              v-on:clickHold="clickHold"
+              v-bind:finalScore="finalScore"
+              v-on:handleFinalScore="handleFinalScore"
             />
             
             <dices-comp v-bind:dices="dices"/>
@@ -37,10 +42,10 @@ export default {
       isPlaying: false,
       isOpenPopup: false,
       activePlayer: 0,
-      playerscore: [10,20],
+      playerscore: [0,0],
       dices: [1, 5],
-      currentscore: 20,
-
+      currentscore: 0,
+      finalScore: 10
 
     }
   },
@@ -50,7 +55,50 @@ export default {
     DicesComp,
     PopupRule
   },
+  computed: {
+    isWinner() {
+      let { playerscore, finalScore } = this;
+      console.log(playerscore[0], playerscore[1], finalScore );
+
+      if(playerscore[0] >= finalScore || playerscore[1] >= finalScore ){
+        
+        this.isPlaying = false;
+        return true;
+      }
+        return false;
+      
+    }
+  },
   methods: {
+    handleFinalScore(e) {
+      var number = parseInt(e.target.value);
+      if(isNaN(number)){
+        this.finalScore = '';
+      }
+      else{
+        this.finalScore = number;
+      }
+      
+    },
+    clickHold() {
+      if(this.isPlaying){
+
+        let { playerscore, activePlayer, currentscore } = this;
+        let oldScore = playerscore[activePlayer];
+
+        //this.playerscore[this.activePlayer] = this.playerscore[this.activePlayer] + this.currentscore;
+        //this.playerscore[activePlayer] = oldScore + currentscore;
+        this.$set(this.playerscore, activePlayer, oldScore + currentscore);
+
+        if( !this.isWinner ){
+          this.nextPlayer();
+        }
+        
+      }
+      else{
+        alert('NewGame Please!');
+      }
+    },
     nextPlayer(){
       this.activePlayer = this.activePlayer ==0? 1 : 0;
       this.currentscore = 0;
